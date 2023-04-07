@@ -8,7 +8,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,7 +20,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -38,6 +40,6 @@ public class Person {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthday;
 
-    @OneToMany(mappedBy="person", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="person", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Address> addresses = new ArrayList<>();
 }

@@ -2,7 +2,6 @@ package br.com.attornatus.implementations;
 
 import br.com.attornatus.dtos.AddressRequestDTO;
 import br.com.attornatus.dtos.AddressResponseDTO;
-import br.com.attornatus.models.Address;
 
 import java.util.List;
 

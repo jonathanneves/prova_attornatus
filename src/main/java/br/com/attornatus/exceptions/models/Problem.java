@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -31,7 +30,6 @@ public class Problem {
         this.title = title;
         this.dateTime = LocalDateTime.now();
     }
-
 
     public Problem(Integer status, String title, List<Field> fields) {
         super();

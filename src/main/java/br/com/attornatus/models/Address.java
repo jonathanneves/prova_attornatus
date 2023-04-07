@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -24,7 +27,7 @@ public class Address {
     private String publicArea;
 
     @NotNull
-    @Size(min = 8, max = 8)
+    @Size(min = 9, max = 9)
     private String cep;
 
     @NotNull
@@ -38,7 +41,7 @@ public class Address {
     private Boolean main;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id", nullable=false)
     private Person person;
 }

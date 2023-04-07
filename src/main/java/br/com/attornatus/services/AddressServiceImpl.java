@@ -2,7 +2,6 @@ package br.com.attornatus.services;
 
 import br.com.attornatus.dtos.AddressRequestDTO;
 import br.com.attornatus.dtos.AddressResponseDTO;
-import br.com.attornatus.dtos.PersonResponseDTO;
 import br.com.attornatus.models.Address;
 import br.com.attornatus.models.Person;
 import br.com.attornatus.repositories.AddressRepository;
@@ -28,39 +27,43 @@ public class AddressServiceImpl implements br.com.attornatus.implementations.Add
 
     @Override
     public AddressResponseDTO create(AddressRequestDTO addressDTO) {
-        read(addressDTO.getPersonId());
-        Address address = modelMapper.map(addressDTO, Address.class);
-        address.setId(null);
-        updateMainAddress(addressDTO.getPersonId(), addressDTO.isMain());
+        Person person = findPersonById(addressDTO.getPersonId());
+        Address address = updateMainAddress(addressDTO);
+        address.setPerson(person);
         address = addressRepository.save(address);
         return modelMapper.map(address, AddressResponseDTO.class);
     }
 
     @Override
     public List<AddressResponseDTO> listAddressByPersonId(Long personId) {
-        read(personId);
+        findPersonById(personId);
         return addressRepository.findByPersonId(personId).stream().map(it -> modelMapper.map(it, AddressResponseDTO.class)).toList();
     }
 
     @Override
     public AddressResponseDTO findMainAddressByPersonId(Long personId) {
-        read(personId);
+        findPersonById(personId);
         Address address = addressRepository.findByPersonIdAndMainIsTrue(personId);
         return modelMapper.map(address, AddressResponseDTO.class);
     }
 
-    private Person read(Long id) {
+    private Person findPersonById(Long id) {
         String message = String.format("Não foi encontrado pessoa com ID (%d)!", id);
         return personRepository.findById(id).orElseThrow(() -> new NoSuchElementException(message));
     }
 
-    private void updateMainAddress(Long personId, Boolean main) {
-        if(Boolean.TRUE.equals(main)){
-            Address oldAddress = addressRepository.findByPersonIdAndMainIsTrue(personId);
-            if(oldAddress != null) {
+    private Address updateMainAddress(AddressRequestDTO addressDTO) {
+        Address oldAddress = addressRepository.findByPersonIdAndMainIsTrue(addressDTO.getPersonId());
+        if(Boolean.TRUE.equals(addressDTO.isMain())) {
+            if(oldAddress != null){
                 oldAddress.setMain(false);
                 addressRepository.save(oldAddress);
             }
+        }else{
+            if(oldAddress == null){
+                addressDTO.setMain(true);
+            }
         }
+        return modelMapper.map(addressDTO, Address.class);
     }
 }
