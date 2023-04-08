@@ -1,4 +1,4 @@
-package br.com.attornatus.implementations;
+package br.com.attornatus.services;
 
 import br.com.attornatus.dtos.PersonRequestDTO;
 import br.com.attornatus.dtos.PersonResponseDTO;

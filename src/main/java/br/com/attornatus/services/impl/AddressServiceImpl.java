@@ -1,4 +1,4 @@
-package br.com.attornatus.services;
+package br.com.attornatus.services.impl;
 
 import br.com.attornatus.dtos.AddressRequestDTO;
 import br.com.attornatus.dtos.AddressResponseDTO;
@@ -6,6 +6,7 @@ import br.com.attornatus.models.Address;
 import br.com.attornatus.models.Person;
 import br.com.attornatus.repositories.AddressRepository;
 import br.com.attornatus.repositories.PersonRepository;
+import br.com.attornatus.services.AddressService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class AddressServiceImpl implements br.com.attornatus.implementations.AddressService {
+public class AddressServiceImpl implements AddressService {
 
     @Autowired
     private AddressRepository addressRepository;

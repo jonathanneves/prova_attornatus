@@ -3,7 +3,7 @@ package br.com.attornatus.integrations;
 
 import br.com.attornatus.dtos.PersonRequestDTO;
 import br.com.attornatus.dtos.PersonResponseDTO;
-import br.com.attornatus.implementations.PersonService;
+import br.com.attornatus.services.PersonService;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

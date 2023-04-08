@@ -15,9 +15,11 @@ public class AddressRequestDTO {
     @NotBlank(message = "Logradouro não pode ser vazio ou nulo.")
     private String publicArea;
 
+    @NotBlank(message = "CEP não pode ser vazio ou nulo")
     @Size(min = 9, max = 9, message = "CEP deve ter tamanho igual à 9.")
     private String cep;
 
+    @NotBlank(message = "Número não pode ser vazio ou nulo")
     @Size(min = 2, max = 10, message = "Número deve ter tamanho máximo 10.")
     private String number;
 

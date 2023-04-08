@@ -1,8 +1,6 @@
 package br.com.attornatus.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -36,7 +34,6 @@ public class Person {
 
     @NotNull
     @Past
-    @JsonSerialize(using = LocalDateSerializer.class)
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthday;
 

@@ -1,9 +1,10 @@
-package br.com.attornatus.services;
+package br.com.attornatus.services.impl;
 
 import br.com.attornatus.dtos.PersonRequestDTO;
 import br.com.attornatus.dtos.PersonResponseDTO;
 import br.com.attornatus.models.Person;
 import br.com.attornatus.repositories.PersonRepository;
+import br.com.attornatus.services.PersonService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class PersonServiceImpl implements br.com.attornatus.implementations.PersonService {
+public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private PersonRepository personRepository;

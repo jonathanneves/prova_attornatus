@@ -1,7 +1,7 @@
 package br.com.attornatus.handlers;
 
-import br.com.attornatus.exceptions.models.Field;
-import br.com.attornatus.exceptions.models.Problem;
+import br.com.attornatus.handlers.models.Field;
+import br.com.attornatus.handlers.models.Problem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +34,16 @@ public class ControllerExceptionsHandler extends ResponseEntityExceptionHandler 
     public ResponseEntity<Object> handleNoSuchElementException(NoSuchElementException ex, WebRequest request) {
         var status = HttpStatus.NOT_FOUND;
         var problem = new Problem(status.value(), ex.getMessage());
+        LOG.error("NoSuchElementExcepetion: {}:", ex.getMessage());
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
         var status = HttpStatus.BAD_REQUEST;
-        var problema = new Problem(status.value(), ex.getMessage());
-        return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+        var problem = new Problem(status.value(), ex.getMessage());
+        LOG.error("IllegalArgumentException {}:", ex.getMessage());
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
 
     @Override
@@ -49,53 +51,17 @@ public class ControllerExceptionsHandler extends ResponseEntityExceptionHandler 
         var fields = new ArrayList<Field>();
 
         for (ObjectError error : ex.getBindingResult().getAllErrors()) {
-            String nome = ((FieldError) error).getField();
+            String name = ((FieldError) error).getField();
             String mensagem = messageSource.getMessage(error, LocaleContextHolder.getLocale());
 
-            fields.add(new Field(nome, mensagem));
+            fields.add(new Field(name, mensagem));
         }
 
-        String titulo = "Um ou mais campos estão inválidos! "
+        String title = "Um ou mais campos estão inválidos! "
                 + "Faça o preenchimento correto e tente novamente.";
-        var problema = new Problem(status.value(), titulo, fields);
+        var problem = new Problem(status.value(), title, fields);
 
-        return handleExceptionInternal(ex, problema, headers, status, request);
+        LOG.error("MethodArgumentNotValid {}:", fields);
+        return handleExceptionInternal(ex, problem, headers, status, request);
     }
 }
-
-
-    /*
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-
-    @ExceptionHandler(value = { MethodArgumentNotValidException.class })
-    public ResponseEntity<Object> handleValidationExceptions(
-            MethodArgumentNotValidException ex, HttpServletRequest request) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return new ResponseEntity<>(
-                ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
-    }
-
-   /* @ExceptionHandler(value = { IllegalArgumentException.class })
-    protected ResponseEntity<Map<String, AbstractTreatment>> handleConflict(Exception ex, HttpServletRequest request) {
-        //String bodyOfResponse = "Ocorreu um erro ao processar a solicitação: "+ex.getMessage();
-        this.log(ex);
-        return ErrorResponse.handle(ex, request, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(value = { NoSuchElementException.class })
-    protected ResponseEntity<Map<String, AbstractTreatment>> handleNotFound(Exception ex, HttpServletRequest request) {
-      //  String bodyOfResponse = "O registro solicitado não foi encontrado.";
-        return ErrorResponse.handle(ex, request, HttpStatus.NOT_FOUND);
-    }
-
-    private void log(Exception exception) {
-        var message = exception.getCause() != null ? exception.getCause().getMessage() : exception.getMessage();
-        LOG.error(message);
-    }
-}
-*/

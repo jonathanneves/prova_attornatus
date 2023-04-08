@@ -2,7 +2,7 @@ package br.com.attornatus.controllers;
 
 import br.com.attornatus.dtos.PersonRequestDTO;
 import br.com.attornatus.dtos.PersonResponseDTO;
-import br.com.attornatus.implementations.PersonService;
+import br.com.attornatus.services.PersonService;
 import br.com.attornatus.responses.SuccessResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;

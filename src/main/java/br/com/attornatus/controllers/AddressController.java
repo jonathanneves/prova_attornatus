@@ -2,7 +2,7 @@ package br.com.attornatus.controllers;
 
 import br.com.attornatus.dtos.AddressRequestDTO;
 import br.com.attornatus.dtos.AddressResponseDTO;
-import br.com.attornatus.implementations.AddressService;
+import br.com.attornatus.services.AddressService;
 import br.com.attornatus.responses.SuccessResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
